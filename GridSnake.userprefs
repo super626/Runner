@@ -1,0 +1,32 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameCore\GameRuntime.cs">
+    <Files>
+      <File FileName="Assets\UI\SpriteCollect.cs" Line="1" Column="1" />
+      <File FileName="Assets\Startup.cs" Line="1" Column="1" />
+      <File FileName="Assets\iTween.cs" Line="1" Column="1" />
+      <File FileName="Assets\Levels\LevelSource.cs" Line="1" Column="1" />
+      <File FileName="Assets\Levels\Level1.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\levels\level1.txt" Line="1" Column="1" />
+      <File FileName="Assets\Data\GameLevel.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\shaders\SpriteSheetAdd.shader" Line="1" Column="1" />
+      <File FileName="Assets\GameCore\GameRuntime.cs" Line="17" Column="29" />
+      <File FileName="Assets\GameCore\LevelRuntime.cs" Line="14" Column="1" />
+      <File FileName="Assets\GameObjects\Floor.cs" Line="54" Column="40" />
+      <File FileName="Assets\GameObjects\MapCell.cs" Line="175" Column="1" />
+      <File FileName="Assets\Base\Bezier.cs" Line="1" Column="1" />
+      <File FileName="Assets\Base\Cardinal.cs" Line="1" Column="1" />
+      <File FileName="Assets\Comps\AdjustPos.cs" Line="1" Column="1" />
+      <File FileName="Assets\Comps\FaceToCamera.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Catchpoint exceptionName="System.ArgumentOutOfRangeException" />
+      <Catchpoint exceptionName="System.ArgumentNullException" />
+      <Catchpoint exceptionName="System.ASSERT" />
+      <Breakpoint file="D:\code\unity\GridSnake\Assets\UI\SpriteCollect.cs" line="70" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

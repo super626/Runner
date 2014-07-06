@@ -1,0 +1,9 @@
+D:\code\unity\GridSnake\MapEditor\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+D:\code\unity\GridSnake\MapEditor\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+D:\code\unity\GridSnake\MapEditor\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+D:\code\unity\GridSnake\MapEditor\MapEditor\MapEditor\bin\Debug\UnityEngine.dll
+D:\code\unity\GridSnake\MapEditor\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
+D:\code\unity\GridSnake\MapEditor\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+D:\code\unity\GridSnake\MapEditor\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
+D:\code\unity\GridSnake\MapEditor\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+D:\code\unity\GridSnake\MapEditor\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
