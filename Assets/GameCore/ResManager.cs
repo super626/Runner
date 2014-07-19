@@ -118,7 +118,7 @@ public class ResManager
 		};
 		mesh.RecalculateBounds ();
 		Bounds aabb = mesh.bounds;
-		aabb.Expand(0.5f);
+		aabb.Expand(10.5f);
 		mesh.bounds = aabb;
 		return mesh;
 	}

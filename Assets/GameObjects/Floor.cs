@@ -8,15 +8,14 @@ public class Floor : MonoBehaviour {
 
 	public class GridRow {
 		public MapCell[] m_cells;
-
-		public GridRow(int z)
+		public GridRow(int z, GameLevel levelData)
 		{
 			m_cells = new MapCell[COLS];
 
 			float x = -COLS * 0.5f;
 			for (int i = 0; i < COLS; i++)
 			{
-				char iCell = GameRuntime.curLevel.LevelData.GetCell((int)(x + i + 0.5f), z);
+				char iCell = levelData.GetCell((int)(x + i + 0.5f), z);
 				m_cells[i] = MapCell.Create(iCell, x + i, z);
 			}
 		}
@@ -36,33 +35,44 @@ public class Floor : MonoBehaviour {
 	}
 	List<GridRow> m_rows = new List<GridRow>();
 	int m_frontZ = 0;
+	LevelRuntime m_level;
+
 	public Floor()
 	{
 	}
 	// Use this for initialization
 	void Start () {
+		ResetLevel (GameRuntime.curLevel);
+	}
+
+
+	public void ResetLevel(LevelRuntime level)
+	{
+		m_level = level;
+		m_rows.Clear();
 		for (int i = 0; i < ROWS; i++) 
 		{
-			m_rows.Add(new GridRow(i));
+			m_rows.Add(new GridRow(i, m_level.LevelData));
 		}
 		m_frontZ = 0;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
+		if (m_level == null)
+			return;
 
-		float startZ = GameRuntime.curLevel.HeadZ;
+		float startZ = m_level.HeadZ;
 		while (startZ > m_rows[0].GetZ())
 		{
 			ReplaceRow();
 		}
-
 	}
 
 	void ReplaceRow() {
 		GridRow row = m_rows [0];
 		m_rows.RemoveAt(0);
-		m_rows.Add(new GridRow((int)row.GetZ() + ROWS));
+		m_rows.Add(new GridRow((int)row.GetZ() + ROWS, m_level.LevelData));
 		row.ReleaseCells ();
 		m_frontZ++;
 	}
