@@ -14,34 +14,32 @@ public class GameRuntime
 {
 	private static GameUtils.Shaker m_camShaker = new GameUtils.Shaker(Vector3.zero, 0, 0, 0);
 	private static Vector3 m_camOrgPos;
+
 	public static void Init() {
 		ResManager.Init ();
 		GameObjectPool.Init();
+
 		floor = GameObject.Find("FloorObject").GetComponent<Floor>();
-		snake = GameObject.Find("SnakeObject").GetComponent<Snake>();
+		curLevel = new LevelRuntime();
+		curLevel.Init();
 		labelScore = GameObject.Find("Label:Score").GetComponent<UILabel>();
 		labelScore.text = "Score: 0";
 		labelGold = GameObject.Find("Label:Gold").GetComponent<UILabel>();
 
 		Time.maximumDeltaTime = 0.03f;
-
-		currentLevel = new GameLevel();
-		currentLevel.LoadFromSource(new Level1());
 		m_camOrgPos = Camera.main.transform.position;
-		startZ = 0;
 	}
 
 	public static void Update() {
-
-		GameObjectPool.Update(Time.smoothDeltaTime);
-		m_camShaker.Update(Time.smoothDeltaTime);
-
-		startZ += snake.GetSpeed() * Time.smoothDeltaTime;
+		float dt = Time.smoothDeltaTime;
+		GameObjectPool.Update(dt);
+		m_camShaker.Update(dt);
+		curLevel.Update(dt);	
 		Vector3 camPos = m_camOrgPos;
-		camPos.z = startZ - 2;
+		camPos.z = curLevel.HeadZ - 2;
 		camPos += m_camShaker.GetOffset();
 		Camera.main.transform.position = camPos;
-		labelScore.text = "Score: " + ((int)(startZ)).ToString();
+		labelScore.text = "Score: " + ((int)(curLevel.HeadZ)).ToString();
 		//float fTurn = Mathf.Sin(Time.time * 0.1f) * 5;
 		float fTurn = Mathf.PerlinNoise(0, camPos.z * 0.002f) * 24 - 12;
 		ResManager.m_gridMaterial[ResManager.GRID_FLOOR].SetFloat("_TurnX", fTurn);
@@ -51,22 +49,16 @@ public class GameRuntime
 		turnX = fTurn;
 	}
 
-	public static float GetStartZ() {
-		return startZ;
-	}
-
 	public static void ShakeCamera(Vector3 dir, float time, float amount, float rate)
 	{
 		m_camShaker = new GameUtils.Shaker(dir, time, amount, rate);
 	}
+
+	public static LevelRuntime curLevel;
 	public static float turnX = 0;
-	public static float startZ = 0;
 	public static Floor floor;
 	public static UILabel labelScore;
 	public static UILabel labelGold;
-	public static GameLevel currentLevel;
-	public static Snake snake; 
-	public static int goldNum = 0;
 	public static System.Random random = new System.Random();
 
 }

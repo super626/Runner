@@ -28,8 +28,8 @@ public class SpriteCollect : MonoBehaviour {
 			pa.transform.localPosition = target.transform.localPosition;
 			pa.transform.localScale = Vector3.one;
 			pa.transform.localEulerAngles = new Vector3(0, 0, 0);
-			GameRuntime.goldNum ++;
-			GameRuntime.labelGold.text = GameRuntime.goldNum.ToString(); 
+			GameRuntime.curLevel.AddGoldNum(1);
+			GameRuntime.labelGold.text = GameRuntime.curLevel.GoldNum.ToString(); 
 		};
 
 		TweenScale sc = TweenScale.Begin(gameObject, 0.45f, target.transform.localScale * 1.5f);

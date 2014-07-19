@@ -92,30 +92,5 @@ public class GameLevel
 			return CELL_FLOOR;
 		return Map[z][x];
 	}
-
-	static bool bLastLeft = true;
-
-	public bool ForwardSideIsLeft(int x, int z)
-	{
-		bLastLeft = !bLastLeft;
-
-		for (int i = 0; i < 10; i++)
-		{
-			char cell = GetCell(x, z + i);
-
-			if (cell == CELL_BLOCK_SIDE_LEFT)
-			{
-				bLastLeft = false;
-				break;
-			}
-			else if (cell == CELL_BLOCK_SIDE_RIGHT)
-			{
-				bLastLeft = true;
-				break;
-			}
-		}
-
-		return bLastLeft;
-	}
 }
 

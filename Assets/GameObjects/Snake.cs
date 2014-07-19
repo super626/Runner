@@ -147,7 +147,7 @@ public class Snake : MonoBehaviour {
 
 	float GetStartZ()
 	{
-		return GameRuntime.GetStartZ() + 7;
+		return GameRuntime.curLevel.HeadZ + 7;
 	}
 
 	GameObject CreateBodyObject(Vector3 neckPos)
@@ -328,7 +328,7 @@ public class Snake : MonoBehaviour {
 
 	void Side() {
 		m_bodys.Add(m_neck);
-		m_bSideLeft = GameRuntime.currentLevel.ForwardSideIsLeft(m_logicX, (int)GetStartZ());
+		m_bSideLeft = GameRuntime.curLevel.ForwardSideIsLeft(m_logicX, (int)GetStartZ());
 		m_neck = ResManager.CreateGridObject(new Vector3(m_logicX, FH, GetStartZ()), 
 		                                     m_bSideLeft ? ResManager.GRID_TO_SIDE_LEFT : ResManager.GRID_TO_SIDE_RIGHT);
 		m_head.transform.localScale = new Vector3(0.5f, 1, 1);

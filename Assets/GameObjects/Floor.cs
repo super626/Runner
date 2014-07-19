@@ -16,7 +16,7 @@ public class Floor : MonoBehaviour {
 			float x = -COLS * 0.5f;
 			for (int i = 0; i < COLS; i++)
 			{
-				char iCell = GameRuntime.currentLevel.GetCell((int)(x + i + 0.5f), z);
+				char iCell = GameRuntime.curLevel.LevelData.GetCell((int)(x + i + 0.5f), z);
 				m_cells[i] = MapCell.Create(iCell, x + i, z);
 			}
 		}
@@ -51,7 +51,7 @@ public class Floor : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		float startZ = GameRuntime.GetStartZ();
+		float startZ = GameRuntime.curLevel.HeadZ;
 		while (startZ > m_rows[0].GetZ())
 		{
 			ReplaceRow();
