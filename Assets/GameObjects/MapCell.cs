@@ -6,17 +6,13 @@ public class MapCell
 	public GameObject grid;
 	public GameObject decal;
 	public GameObject bonus;
-	public char iType;
-	public int ix;
-	public int iz;
-	public float x;
-	public float z;
-	public bool hasHit = false;
+	public LevelCell cellData;
 
 	public bool IsBlock()
 	{
-		return iType == GameLevel.CELL_BLOCK;
+		return cellData.iType == GameLevel.CELL_BLOCK;
 	}
+
 	public virtual void Release()
 	{
 		ResManager.ReturnGridObject(grid);
@@ -31,7 +27,7 @@ public class MapCell
 
 	public virtual void Hit(Snake snake)
 	{
-		hasHit = true;
+		cellData.Hit (snake);
 	}
 
 	public static MapCell Create(char iType, float fx, float fz)
@@ -61,11 +57,7 @@ public class MapCell
 			Debug.Log("unknown cell type");
 			return null;
 		}
-		cell.iType = iType;
-		cell.x = fx;
-		cell.z = fz;
-		cell.ix = (int)(fx + 0.5f);
-		cell.iz = (int)(fz + 0.5f);
+		cell.cellData = LevelCell.Create (iType, fx, fz);
 		cell.Init();
 		return cell;
 	}
@@ -75,13 +67,12 @@ public class MapCellFloor : MapCell
 {
 	public override void Init()
 	{
-		grid = ResManager.CreateGridObject(new Vector3(x, 0, z), ResManager.GRID_FLOOR);
+		grid = ResManager.CreateGridObject(new Vector3(cellData.x, 0, cellData.z), ResManager.GRID_FLOOR);
 	}	
 
 	public override void Hit(Snake snake)
 	{
-		hasHit = true;
-		snake.SetSpeedTo(10, 3);
+		cellData.Hit (snake);
 	}
 }
 
@@ -89,19 +80,18 @@ public class MapCellBlock : MapCell
 {
 	public override void Init()
 	{
-		grid = ResManager.CreateGridObject(new Vector3(x, 0, z), ResManager.GRID_BLOCK);
+		grid = ResManager.CreateGridObject(new Vector3(cellData.x, 0, cellData.z), ResManager.GRID_BLOCK);
 	}
 
 	public override void Hit(Snake snake)
 	{
-		if (hasHit)
+		if (!cellData.Hit(snake))
 			return;
-		hasHit = true;
-		
+
 		grid.GetComponent<MeshFilter>().mesh = ResManager.m_gridDarkBlockMesh;
 		if (decal != null)
 			ResManager.ReturnDecalObject(decal);
-		decal = ResManager.CreateDecalObject(new Vector3(x + 0.5f, 0.705f, z + 0.5f), ResManager.DECAL_HIT);
+		decal = ResManager.CreateDecalObject(new Vector3(cellData.x + 0.5f, 0.705f, cellData.z + 0.5f), ResManager.DECAL_HIT);
 		decal.transform.localScale = new Vector3(0.5f, 1, 0.5f);
 		GameRuntime.ShakeCamera((new Vector3(0.2f, 0.4f, 1.0f)).normalized, 0.4f, 0.1f, 20);
 		snake.SetSpeedTo(5, 10);
@@ -113,16 +103,13 @@ public class MapCellBlockSideLeft : MapCell
 {
 	public override void Init()
 	{
-		grid = ResManager.CreateGridObject(new Vector3(x, 0, z), ResManager.GRID_BLOCK_SIDE_LEFT);
+		grid = ResManager.CreateGridObject(new Vector3(cellData.x, 0, cellData.z), ResManager.GRID_BLOCK_SIDE_LEFT);
 	}
 
 	public override void Hit(Snake snake)
 	{
-		if (snake.GetState() == Snake.State.SIDE)
+		if (!cellData.Hit(snake))
 			return;
-		if (hasHit)
-			return;
-		hasHit = true;
 		GameRuntime.ShakeCamera((new Vector3(0.2f, 0.4f, 1.0f)).normalized, 0.5f, 0.2f, 20);
 	}
 }
@@ -131,16 +118,14 @@ public class MapCellBlockSideRight : MapCell
 {
 	public override void Init()
 	{
-		grid = ResManager.CreateGridObject(new Vector3(x, 0, z), ResManager.GRID_BLOCK_SIDE_RIGHT);
+		grid = ResManager.CreateGridObject(new Vector3(cellData.x, 0, cellData.z), ResManager.GRID_BLOCK_SIDE_RIGHT);
 	}
 	
 	public override void Hit(Snake snake)
 	{
-		if (snake.GetState() == Snake.State.SIDE)
+		if (!cellData.Hit(snake))
 			return;
-		if (hasHit)
-			return;
-		hasHit = true;
+
 		GameRuntime.ShakeCamera((new Vector3(0.2f, 0.4f, 1.0f)).normalized, 0.5f, 0.2f, 20);
 	}
 }
@@ -149,16 +134,13 @@ public class MapCellBlockNarrow : MapCell
 {
 	public override void Init()
 	{
-		grid = ResManager.CreateGridObject(new Vector3(x, 0, z), ResManager.GRID_BLOCK_NARROW);
+		grid = ResManager.CreateGridObject(new Vector3(cellData.x, 0, cellData.z), ResManager.GRID_BLOCK_NARROW);
 	}
 
 	public override void Hit(Snake snake)
 	{
-		if (snake.GetState() == Snake.State.NARROW)
+		if (!cellData.Hit(snake))
 			return;
-		if (hasHit)
-			return;
-		hasHit = true;
 		
 		GameRuntime.ShakeCamera((new Vector3(0.2f, 0.4f, 1.0f)).normalized, 0.5f, 0.2f, 20);
 	}
@@ -169,20 +151,20 @@ public class MapCellGold : MapCell
 {
 	public override void Init()
 	{
-		grid = ResManager.CreateGridObject(new Vector3(x, 0, z), ResManager.GRID_FLOOR);
+		grid = ResManager.CreateGridObject(new Vector3(cellData.x, 0, cellData.z), ResManager.GRID_FLOOR);
 		bonus = GameObjectPool.CreateNew("objects/GoldBonus");
-		bonus.transform.localPosition = new Vector3(x + 0.5f, 0.5f, z);
+		bonus.transform.localPosition = new Vector3(cellData.x + 0.5f, 0.5f, cellData.z);
 		bonus.GetComponent<Gold>().Stay();
 	}
 
 	public override void Hit(Snake snake)
 	{
-		if (hasHit)
+		if (!cellData.Hit(snake))
 			return;
+
 		bonus.GetComponent<Gold>().Fly();
-		GameObject par = ParticleMan.PlayParticle("gfx/GoldSpark", new Vector3(x + 0.5f, 0.0f, z + 0.5f));
+		GameObject par = ParticleMan.PlayParticle("gfx/GoldSpark", new Vector3(cellData.x + 0.5f, 0.0f, cellData.z + 0.5f));
 		AdjustPos.AttachTo(par);
-		SpriteCollect.CreateNew(new Vector3(x + 0.5f, 0.0f, z + 0.5f));
-		hasHit = true;
+		SpriteCollect.CreateNew(new Vector3(cellData.x + 0.5f, 0.0f, cellData.z + 0.5f));
 	}
 }

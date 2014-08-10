@@ -30,7 +30,7 @@ public class Floor : MonoBehaviour {
 
 		public float GetZ()
 		{
-			return m_cells[0].z;
+			return m_cells[0].cellData.z;
 		}
 	}
 	List<GridRow> m_rows = new List<GridRow>();
